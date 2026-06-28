@@ -20,7 +20,6 @@
     --accent-dim: rgba(74,222,128,0.12);
     --accent-border: rgba(74,222,128,0.25);
     --red: #f87171;
-    --red-dim: rgba(248,113,113,0.1);
     --blue: #60a5fa;
     --amber: #fbbf24;
     --radius: 8px;
@@ -28,28 +27,13 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px;
-  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; line-height: 1.6; min-height: 100vh; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
   .nav-brand { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; color: var(--text); }
   .nav-brand span { color: var(--accent); }
   .nav-links { display: flex; gap: 4px; }
   .nav-links a { font-size: 13px; color: var(--text-sec); text-decoration: none; padding: 6px 12px; border-radius: var(--radius); transition: color 0.15s, background 0.15s; }
   .nav-links a:hover { color: var(--text); background: var(--surface2); }
-  .nav-links a.active { color: var(--text); background: var(--surface2); }
   .hero { padding: 5rem 2rem 4rem; max-width: 900px; margin: 0 auto; border-bottom: 1px solid var(--border); }
   .hero-eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 1.25rem; }
   .hero h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 500; line-height: 1.15; letter-spacing: -1px; margin-bottom: 1.25rem; color: var(--text); }
@@ -69,7 +53,7 @@
   .card-stat .value { font-size: 15px; font-weight: 500; }
   .model-section { display: none; }
   .model-section.active { display: block; }
-  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 2rem; flex-wrap: wrap; }
   .tab-btn { font-size: 13px; color: var(--text-sec); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 16px; margin-bottom: -1px; cursor: pointer; transition: color 0.15s; font-family: inherit; }
   .tab-btn:hover { color: var(--text); }
   .tab-btn.active { color: var(--text); border-bottom-color: var(--accent); }
@@ -124,6 +108,11 @@
   .divider { height: 1px; background: var(--border); margin: 2rem 0; }
   .note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
   .section-title { font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .methodology { font-size: 14px; color: var(--text-sec); line-height: 1.85; }
+  .methodology h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); font-weight: 400; margin-bottom: 0.75rem; margin-top: 1.75rem; }
+  .methodology h4:first-child { margin-top: 0; }
+  .methodology p { margin-bottom: 1rem; }
+  .methodology p:last-child { margin-bottom: 0; }
   @media (max-width: 640px) {
     .company-grid { grid-template-columns: 1fr; }
     .metric-grid { grid-template-columns: repeat(2, 1fr); }
@@ -138,10 +127,7 @@
 <body>
 <nav>
   <div class="nav-brand">Ethan Rainer <span>/ Equity Research</span></div>
-  <div class="nav-links">
-    <a href="#models" class="active">Models</a>
-    <a href="mailto:er@williams.edu">Contact</a>
-  </div>
+  <div class="nav-links"><a href="#models">Models</a></div>
 </nav>
 <div class="hero">
   <div class="hero-eyebrow">Equity Research · DCF Valuation</div>
@@ -169,9 +155,9 @@
     <div class="company-card" id="card-spot" onclick="selectCompany('spot')">
       <div class="card-ticker">SPOT · NYSE</div>
       <div class="card-name">Spotify Technology</div>
-      <div class="card-desc">Global audio streaming leader that turned its first full year of operating profitability in 2024 after years of deliberate investment.</div>
+      <div class="card-desc">Global audio streaming leader delivering rapid margin expansion and record free cash flow following its first full year of operating profitability in 2024.</div>
       <div class="card-stats">
-        <div class="card-stat"><div class="label">Revenue</div><div class="value">$15.7B</div></div>
+        <div class="card-stat"><div class="label">Revenue</div><div class="value">$17.5B</div></div>
         <div class="card-stat"><div class="label">Sector</div><div class="value">Tech / Media</div></div>
       </div>
     </div>
@@ -182,6 +168,7 @@
       <button class="tab-btn" onclick="showTab('dks','financials')">Financials</button>
       <button class="tab-btn" onclick="showTab('dks','dcf')">DCF model</button>
       <button class="tab-btn" onclick="showTab('dks','cashflow')">Cash flow</button>
+      <button class="tab-btn" onclick="showTab('dks','methodology')">Methodology</button>
     </div>
     <div class="tab-panel active" id="dks-overview">
       <div class="metric-grid">
@@ -296,6 +283,20 @@
         </table>
       </div>
     </div>
+    <div class="tab-panel" id="dks-methodology">
+      <div class="chart-card">
+        <div class="methodology">
+          <h4>Company selection</h4>
+          <p>Dick's Sporting Goods was selected as the anchor model for this analysis because it represents a textbook cash-flow-generating retail business at an interesting inflection point. As a four-year varsity basketball player, I visited Dick's several times a month for ankle braces, socks, and basketball shoes. As a golfer and pickleball player, I still do. Dick's is one of those constants — a company I can fall back on knowing that whatever sports-related product I need, they have it. That familiarity with the brand and its store experience informed my qualitative assessment of the business alongside the financial analysis.</p>
+          <h4>Key assumptions and rationale</h4>
+          <p>The most sensitive assumption in this model is WACC. A half-percentage-point movement in the discount rate shifts the implied enterprise value by nearly a billion dollars, reflecting how heavily the terminal value dominates the output. I set WACC at 9%, reflecting Dick's status as a large-cap, investment-grade retailer with a relatively stable but compressing cash flow profile. Because WACC is set based on judgment about market risk rather than derived directly from the company's accounting data, it carries more inherent uncertainty than the margin assumptions.</p>
+          <p>EBIT margin is the second most consequential lever. Dick's operating margin has deteriorated from 16.6% in FY2021 to approximately 11% in FY2024, driven by gross margin compression from merchandise cost pressures and a rising SG&amp;A base as the company expands its House of Sport format. The base case assumes a 10% EBIT margin, reflecting partial normalization but not a full recovery to peak levels. CapEx is assumed to normalize from its current elevated level of roughly 8% of revenue toward 6%, embedding a view that the House of Sport buildout moderates over the projection period.</p>
+          <h4>Key risks</h4>
+          <p>The primary risk to the revenue growth assumptions is competitive displacement. Nike has been aggressively expanding its direct-to-consumer business, selling through its own app and retail stores rather than through wholesale partners like Dick's. If Nike reallocates inventory away from Dick's toward its own channels, Dick's loses both the product and the customer simultaneously. Amazon presents a structural threat to the commodity end of Dick's merchandise mix. Revenue growth has already plateaued, growing less than 4% in each of the last two fiscal years, which suggests the base case assumption of 5% near-term growth may prove optimistic if these competitive dynamics intensify.</p>
+          <p>On the cost side, if Dick's continues expanding House of Sport locations at the current pace rather than moderating, free cash flow will remain suppressed longer than this model implies. The tension between investing for long-term growth and generating near-term cash is the central question this model is designed to help think through.</p>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="model-section" id="model-spot">
     <div class="tabs">
@@ -303,18 +304,19 @@
       <button class="tab-btn" onclick="showTab('spot','financials')">Financials</button>
       <button class="tab-btn" onclick="showTab('spot','dcf')">DCF model</button>
       <button class="tab-btn" onclick="showTab('spot','cashflow')">Cash flow</button>
+      <button class="tab-btn" onclick="showTab('spot','methodology')">Methodology</button>
     </div>
     <div class="tab-panel active" id="spot-overview">
       <div class="metric-grid">
-        <div class="metric-card"><div class="mlabel">Revenue (2024)</div><div class="mvalue">$15.7B</div><div class="msub pos">+18.7% YoY</div></div>
-        <div class="metric-card"><div class="mlabel">Gross margin</div><div class="mvalue">29.2%</div><div class="msub pos">▲ from 25.3% in 2021</div></div>
-        <div class="metric-card"><div class="mlabel">Operating income</div><div class="mvalue">$1.47B</div><div class="msub pos">First profitable year</div></div>
-        <div class="metric-card"><div class="mlabel">Net income</div><div class="mvalue">$1.14B</div><div class="msub pos">vs. $(532M) in 2023</div></div>
-        <div class="metric-card"><div class="mlabel">MAUs</div><div class="mvalue">675M</div><div class="msub pos">+11% YoY</div></div>
-        <div class="metric-card"><div class="mlabel">Premium subscribers</div><div class="mvalue">263M</div><div class="msub pos">+12% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Revenue (2025)</div><div class="mvalue">$17.5B</div><div class="msub pos">+2.0% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Gross margin</div><div class="mvalue">32.3%</div><div class="msub pos">▲ from 25.0% in 2021</div></div>
+        <div class="metric-card"><div class="mlabel">Operating income</div><div class="mvalue">$2.40B</div><div class="msub pos">13.7% margin</div></div>
+        <div class="metric-card"><div class="mlabel">Net income</div><div class="mvalue">$2.71B</div><div class="msub pos">vs. $(532M) in 2022</div></div>
+        <div class="metric-card"><div class="mlabel">MAUs (Q4 2025)</div><div class="mvalue">751M</div><div class="msub pos">+11% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Premium subscribers</div><div class="mvalue">290M</div><div class="msub pos">+10% YoY</div></div>
       </div>
       <div class="chart-card">
-        <h3>Revenue vs. gross profit (2021–2024, $M USD equiv.)</h3>
+        <h3>Revenue vs. gross profit (2021–2025, $M USD equiv.)</h3>
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Revenue</div>
           <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Gross profit</div>
@@ -329,30 +331,30 @@
     <div class="tab-panel" id="spot-financials">
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Income statement ($M USD)</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr></thead>
+          <thead><tr><th>Income statement ($M USD)</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
           <tbody>
-            <tr class="bold-row"><td>Revenue</td><td>11,727</td><td>13,247</td><td>15,673</td><td>17,186</td></tr>
-            <tr><td>Cost of revenue</td><td>8,801</td><td>9,850</td><td>10,949</td><td>11,690</td></tr>
-            <tr class="bold-row"><td>Gross profit</td><td>2,926</td><td>3,397</td><td>4,724</td><td>5,496</td></tr>
-            <tr><td>Gross margin</td><td>25.0%</td><td>25.6%</td><td>30.1%</td><td>32.0%</td></tr>
-            <tr><td>Operating expenses (R&amp;D + S&amp;M + G&amp;A)</td><td>3,585</td><td>3,843</td><td>3,359</td><td>3,298</td></tr>
-            <tr class="bold-row"><td>Operating income/(loss)</td><td>(659)</td><td>(446)</td><td>1,365</td><td>2,198</td></tr>
-            <tr><td>Operating margin</td><td>(5.6%)</td><td>(3.4%)</td><td>8.7%</td><td>12.8%</td></tr>
-            <tr><td>Net income/(loss)</td><td>(532)</td><td>(532)</td><td>1,138</td><td>2,212</td></tr>
-            <tr><td>Net margin</td><td>(4.5%)</td><td>(4.0%)</td><td>7.3%</td><td>12.9%</td></tr>
+            <tr class="bold-row"><td>Revenue</td><td>11,727</td><td>13,247</td><td>15,673</td><td>17,186</td><td>17,529</td></tr>
+            <tr><td>Cost of revenue</td><td>8,801</td><td>9,850</td><td>10,949</td><td>11,690</td><td>11,864</td></tr>
+            <tr class="bold-row"><td>Gross profit</td><td>2,926</td><td>3,397</td><td>4,724</td><td>5,496</td><td>5,665</td></tr>
+            <tr><td>Gross margin</td><td>25.0%</td><td>25.6%</td><td>30.1%</td><td>32.0%</td><td>32.3%</td></tr>
+            <tr><td>Operating expenses (R&amp;D + S&amp;M + G&amp;A)</td><td>3,585</td><td>3,843</td><td>3,359</td><td>3,298</td><td>3,261</td></tr>
+            <tr class="bold-row"><td>Operating income/(loss)</td><td>(659)</td><td>(446)</td><td>1,365</td><td>2,198</td><td>2,404</td></tr>
+            <tr><td>Operating margin</td><td>(5.6%)</td><td>(3.4%)</td><td>8.7%</td><td>12.8%</td><td>13.7%</td></tr>
+            <tr><td>Net income/(loss)</td><td>(532)</td><td>(532)</td><td>1,138</td><td>2,212</td><td>2,708</td></tr>
+            <tr><td>Net margin</td><td>(4.5%)</td><td>(4.0%)</td><td>7.3%</td><td>12.9%</td><td>15.5%</td></tr>
           </tbody>
         </table>
       </div>
       <div class="divider"></div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Key operating metrics</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr></thead>
+          <thead><tr><th>Key operating metrics</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
           <tbody>
-            <tr><td>Monthly active users (M)</td><td>406</td><td>456</td><td>602</td><td>675</td></tr>
-            <tr><td>Premium subscribers (M)</td><td>180</td><td>205</td><td>236</td><td>263</td></tr>
-            <tr><td>Premium revenue ($M)</td><td>9,688</td><td>10,956</td><td>13,082</td><td>14,604</td></tr>
-            <tr><td>Ad-supported revenue ($M)</td><td>2,039</td><td>2,291</td><td>2,591</td><td>2,582</td></tr>
-            <tr class="bold-row"><td>Premium % of total revenue</td><td>82.6%</td><td>82.7%</td><td>83.5%</td><td>85.0%</td></tr>
+            <tr><td>Monthly active users (M)</td><td>406</td><td>456</td><td>602</td><td>675</td><td>751</td></tr>
+            <tr><td>Premium subscribers (M)</td><td>180</td><td>205</td><td>236</td><td>263</td><td>290</td></tr>
+            <tr><td>Premium revenue ($M)</td><td>9,688</td><td>10,956</td><td>13,082</td><td>14,604</td><td>15,244</td></tr>
+            <tr><td>Ad-supported revenue ($M)</td><td>2,039</td><td>2,291</td><td>2,591</td><td>2,582</td><td>2,285</td></tr>
+            <tr class="bold-row"><td>Premium % of total revenue</td><td>82.6%</td><td>82.7%</td><td>83.5%</td><td>85.0%</td><td>87.0%</td></tr>
           </tbody>
         </table>
       </div>
@@ -361,13 +363,13 @@
       <div class="assumptions-grid">
         <div class="assumption-box">
           <h3>Revenue assumptions</h3>
-          <div class="arow"><label>Revenue growth (Yr 1–3)</label><div class="arow-controls"><input type="range" min="5" max="30" step="1" value="18" id="spot-gN" oninput="updateDCF('spot')"><span class="aval" id="spot-gN-v">18%</span></div></div>
-          <div class="arow"><label>Revenue growth (Yr 4–5)</label><div class="arow-controls"><input type="range" min="5" max="20" step="1" value="12" id="spot-gF" oninput="updateDCF('spot')"><span class="aval" id="spot-gF-v">12%</span></div></div>
+          <div class="arow"><label>Revenue growth (Yr 1–3)</label><div class="arow-controls"><input type="range" min="5" max="30" step="1" value="15" id="spot-gN" oninput="updateDCF('spot')"><span class="aval" id="spot-gN-v">15%</span></div></div>
+          <div class="arow"><label>Revenue growth (Yr 4–5)</label><div class="arow-controls"><input type="range" min="5" max="20" step="1" value="10" id="spot-gF" oninput="updateDCF('spot')"><span class="aval" id="spot-gF-v">10%</span></div></div>
           <div class="arow"><label>Terminal growth rate</label><div class="arow-controls"><input type="range" min="2" max="5" step="0.5" value="3" id="spot-tg" oninput="updateDCF('spot')"><span class="aval" id="spot-tg-v">3.0%</span></div></div>
         </div>
         <div class="assumption-box">
           <h3>Margin &amp; discount assumptions</h3>
-          <div class="arow"><label>EBIT margin</label><div class="arow-controls"><input type="range" min="5" max="25" step="1" value="14" id="spot-em" oninput="updateDCF('spot')"><span class="aval" id="spot-em-v">14%</span></div></div>
+          <div class="arow"><label>EBIT margin</label><div class="arow-controls"><input type="range" min="5" max="25" step="1" value="15" id="spot-em" oninput="updateDCF('spot')"><span class="aval" id="spot-em-v">15%</span></div></div>
           <div class="arow"><label>Tax rate</label><div class="arow-controls"><input type="range" min="5" max="25" step="1" value="10" id="spot-tx" oninput="updateDCF('spot')"><span class="aval" id="spot-tx-v">10%</span></div></div>
           <div class="arow"><label>WACC</label><div class="arow-controls"><input type="range" min="7" max="15" step="0.5" value="10" id="spot-wc" oninput="updateDCF('spot')"><span class="aval" id="spot-wc-v">10.0%</span></div></div>
           <div class="arow"><label>CapEx (% of revenue)</label><div class="arow-controls"><input type="range" min="0.5" max="4" step="0.5" value="1" id="spot-cx" oninput="updateDCF('spot')"><span class="aval" id="spot-cx-v">1.0%</span></div></div>
@@ -382,7 +384,7 @@
       <div class="chart-card">
         <h3>Sensitivity — implied share price by WACC and terminal growth rate</h3>
         <div id="spot-sens"></div>
-        <p class="note">Net cash position: Spotify held ~$6.2B in cash and investments vs. ~$1.5B in debt as of end-2024, giving net cash of ~$4.7B. Diluted shares outstanding: ~205M.</p>
+        <p class="note">Net cash position: Spotify held ~$9.5B in cash and investments vs. ~$1.5B in debt as of end-2025, giving net cash of ~$8.0B. Diluted shares outstanding: ~205M.</p>
       </div>
     </div>
     <div class="tab-panel" id="spot-cashflow">
@@ -396,22 +398,37 @@
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Cash flow highlights ($M USD)</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr></thead>
+          <thead><tr><th>Cash flow highlights ($M USD)</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
           <tbody>
-            <tr class="bold-row"><td>Operating cash flow</td><td>354</td><td>98</td><td>1,832</td><td>2,333</td></tr>
-            <tr><td>Capital expenditures</td><td>(97)</td><td>(91)</td><td>(73)</td><td>(55)</td></tr>
-            <tr class="bold-row"><td>Free cash flow</td><td>257</td><td>7</td><td>1,759</td><td>2,278</td></tr>
-            <tr><td>FCF margin</td><td>2.2%</td><td>0.1%</td><td>11.2%</td><td>13.3%</td></tr>
+            <tr class="bold-row"><td>Operating cash flow</td><td>354</td><td>98</td><td>1,832</td><td>2,333</td><td>3,010</td></tr>
+            <tr><td>Capital expenditures</td><td>(97)</td><td>(91)</td><td>(73)</td><td>(55)</td><td>(67)</td></tr>
+            <tr class="bold-row"><td>Free cash flow</td><td>257</td><td>7</td><td>1,759</td><td>2,278</td><td>2,943</td></tr>
+            <tr><td>FCF margin</td><td>2.2%</td><td>0.1%</td><td>11.2%</td><td>13.3%</td><td>16.8%</td></tr>
           </tbody>
         </table>
       </div>
       <p class="note">Spotify's CapEx is minimal because it is a software business with no physical retail infrastructure. The primary investment is in content licensing, R&amp;D, and personnel, all of which flow through the income statement rather than the balance sheet.</p>
     </div>
+    <div class="tab-panel" id="spot-methodology">
+      <div class="chart-card">
+        <div class="methodology">
+          <h4>Company selection</h4>
+          <p>Spotify is by far my most used app. I listen to music constantly — during workouts, while cooking, cruising with the windows down, and even while doing calculus homework. Across rap, R&amp;B, soul, and everything in between, Spotify is the one thing that is always on. That personal relationship with the product made me want to understand the business behind it: how does a company that gives me this much value every day actually make money, and is it worth what the market says it is?</p>
+          <p>Spotify was also selected to contrast directly against Dick's Sporting Goods. The two companies represent fundamentally different valuation propositions. Dick's is valued primarily on near-term cash generation from a physical retail network. Spotify is valued on the trajectory of its margin expansion and the long-term durability of its subscriber base. Modeling both in the same framework makes the structural differences in each business model concrete.</p>
+          <h4>Key assumptions and rationale</h4>
+          <p>The central thesis of the Spotify model is that subscription revenue is structurally more predictable than retail revenue. Because the majority of Spotify's revenue is contractually recurring through monthly and annual premium subscriptions, the company enters each period with reasonable visibility into its revenue base. This predictability justifies a higher terminal growth rate assumption relative to Dick's, and supports the view that margins will continue expanding as fixed costs are spread across a growing subscriber base that now exceeds 290 million paying users.</p>
+          <p>EBIT margin is assumed at 15%, roughly in line with the trajectory implied by 2024 and 2025 actuals. Spotify's gross margin has expanded from 25% in 2021 to over 32% in 2025, driven by improved music and podcast unit economics and operating leverage on a fixed cost base. CapEx is set at 1% of revenue, consistent with Spotify's historical pattern as a software business with no physical infrastructure. WACC is set at 10%, one percentage point above the Dick's assumption, reflecting Spotify's higher growth profile and greater sensitivity to shifts in content licensing costs.</p>
+          <h4>Key risks</h4>
+          <p>The most significant structural risk to this model is music licensing. Spotify does not own the rights to the music on its platform. Universal Music Group, Sony Music, and Warner Music Group collectively control the rights to the majority of commercially significant recorded music globally. These three labels have historically captured a substantial portion of Spotify's premium revenue through royalty agreements, which is the primary reason it took Spotify over a decade to generate its first full year of operating profit. If any of the major labels demand more favorable terms in future licensing negotiations, Spotify's cost of revenue rises and every margin assumption in this model becomes too optimistic.</p>
+          <p>A secondary competitive risk is Apple Music. Unlike Spotify, Apple operates its music streaming service at a loss deliberately, using it as a feature to sell hardware. Spotify must generate profit from streaming. Apple does not. This asymmetry means Apple can price aggressively or invest in exclusive content without the same financial consequences Spotify would face. If subscriber growth decelerates meaningfully as a result of competitive pressure, the revenue growth assumptions embedded in this model will prove too optimistic and the implied valuation will compress accordingly.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>
 const dksParams = { baseRev: 13443, netDebt: 215, shares: 83 };
-const spotParams = { baseRev: 17186, netDebt: -4700, shares: 205 };
+const spotParams = { baseRev: 17529, netDebt: -8000, shares: 205 };
 let chartRegistry = {};
 function destroyChart(id) { if (chartRegistry[id]) { chartRegistry[id].destroy(); delete chartRegistry[id]; } }
 function makeChart(id, config) { destroyChart(id); const ctx = document.getElementById(id); if (!ctx) return; chartRegistry[id] = new Chart(ctx, config); }
@@ -497,9 +514,9 @@ function initDKSCharts() {
   makeChart('dks-cf-chart', { type: 'bar', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ label: 'Op CF', data: [1617,922,1527,1312,1537], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'CapEx', data: [-308,-364,-587,-803,-1137], backgroundColor: '#f87171', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [1309,558,940,509,400], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
 }
 function initSpotCharts() {
-  makeChart('spot-rev-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024'], datasets: [{ label: 'Revenue', data: [11727,13247,15673,17186], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'Gross profit', data: [2926,3397,4724,5496], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
-  makeChart('spot-oi-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024'], datasets: [{ data: [-659,-446,1365,2198], backgroundColor: ['#f87171','#f87171','#4ade80','#4ade80'], borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
-  makeChart('spot-cf-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024'], datasets: [{ label: 'Op CF', data: [354,98,1832,2333], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [257,7,1759,2278], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('spot-rev-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ label: 'Revenue', data: [11727,13247,15673,17186,17529], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'Gross profit', data: [2926,3397,4724,5496,5665], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('spot-oi-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ data: [-659,-446,1365,2198,2404], backgroundColor: ['#f87171','#f87171','#4ade80','#4ade80','#4ade80'], borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('spot-cf-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ label: 'Op CF', data: [354,98,1832,2333,3010], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [257,7,1759,2278,2943], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
 }
 window.addEventListener('load', () => { initDKSCharts(); updateDCF('dks'); });
 </script>
