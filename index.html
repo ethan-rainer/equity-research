@@ -1,61 +1,506 @@
-Ethan Rainer / Equity Research
-Models
-Contact
-EQUITY RESEARCH · DCF VALUATION
-Financial modeling from first principles
-Discounted cash flow models built on public financial data. Select a company below to explore the model, adjust assumptions, and stress-test the valuation.
-Consumer Retail
-Technology / Media
-Discounted Cash Flow
-Sensitivity Analysis
-SELECT A COMPANY
-DKS · NYSE
-Dick's Sporting Goods
-Largest U.S. sporting goods retailer undergoing a major capital expansion through its House of Sport format.
-Revenue
-$13.4B
-Sector
-Retail
-SPOT · NYSE
-Spotify Technology
-Global audio streaming leader that turned its first full year of operating profitability in 2024 after years of deliberate investment.
-Revenue
-$15.7B
-Sector
-Tech / Media
-Overview
-Financials
-DCF model
-Cash flow
-REVENUE (FY25)
-$13.4B
-+3.5% YoY
-GROSS MARGIN
-35.9%
-▼ from 38.3% in FY21
-OPERATING INCOME
-$1.47B
-10.96% margin
-NET INCOME
-$1.17B
-+11.4% YoY
-FREE CASH FLOW
-$509M
-▼ from $1.3B in FY21
-CAPEX (FY25)
-$803M
-+36.8% YoY
-REVENUE VS. GROSS PROFIT (FY21–FY25, $M)
-
-Revenue
-
-Gross profit
-
-MARGIN COMPRESSION (FY21–FY25, %)
-
-Gross margin
-
-Operating margin
-
-FCF margin
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethan Rainer — Equity Research</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --text: #f0f0ee;
+    --text-sec: #888884;
+    --text-muted: #555552;
+    --accent: #4ade80;
+    --accent-dim: rgba(74,222,128,0.12);
+    --accent-border: rgba(74,222,128,0.25);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.1);
+    --blue: #60a5fa;
+    --amber: #fbbf24;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; color: var(--text); }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a { font-size: 13px; color: var(--text-sec); text-decoration: none; padding: 6px 12px; border-radius: var(--radius); transition: color 0.15s, background 0.15s; }
+  .nav-links a:hover { color: var(--text); background: var(--surface2); }
+  .nav-links a.active { color: var(--text); background: var(--surface2); }
+  .hero { padding: 5rem 2rem 4rem; max-width: 900px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 1.25rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 500; line-height: 1.15; letter-spacing: -1px; margin-bottom: 1.25rem; color: var(--text); }
+  .hero p { font-size: 17px; color: var(--text-sec); max-width: 560px; line-height: 1.7; margin-bottom: 2rem; }
+  .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 12px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border-strong); color: var(--text-sec); }
+  .main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+  .company-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
+  .company-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .company-card:hover { border-color: var(--border-strong); background: var(--surface2); }
+  .company-card.active { border-color: var(--accent-border); background: var(--accent-dim); }
+  .card-ticker { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 6px; }
+  .card-name { font-size: 17px; font-weight: 500; margin-bottom: 4px; }
+  .card-desc { font-size: 13px; color: var(--text-sec); line-height: 1.5; margin-bottom: 1rem; }
+  .card-stats { display: flex; gap: 1.5rem; }
+  .card-stat .label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
+  .card-stat .value { font-size: 15px; font-weight: 500; }
+  .model-section { display: none; }
+  .model-section.active { display: block; }
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .tab-btn { font-size: 13px; color: var(--text-sec); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 16px; margin-bottom: -1px; cursor: pointer; transition: color 0.15s; font-family: inherit; }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .metric-card .mlabel { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .metric-card .mvalue { font-size: 21px; font-weight: 500; }
+  .metric-card .msub { font-size: 12px; margin-top: 3px; }
+  .pos { color: var(--accent); }
+  .neg { color: var(--red); }
+  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .chart-card h3 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; font-weight: 400; }
+  .chart-wrap { position: relative; width: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-sec); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: right; padding: 8px 12px; color: var(--text-muted); font-weight: 400; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  th:first-child { text-align: left; }
+  td { text-align: right; padding: 9px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  td:first-child { text-align: left; color: var(--text-sec); font-size: 12px; }
+  tr.bold-row td { font-weight: 500; color: var(--text); }
+  tr.bold-row td:first-child { color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  .assumptions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  .assumption-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .assumption-box h3 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; font-weight: 400; }
+  .arow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
+  .arow:last-child { margin-bottom: 0; }
+  .arow label { font-size: 13px; color: var(--text-sec); flex: 1; }
+  .arow-controls { display: flex; align-items: center; gap: 8px; }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 90px; height: 4px; border-radius: 2px; background: var(--border-strong); outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+  .aval { font-size: 13px; font-weight: 500; min-width: 44px; text-align: right; color: var(--text); }
+  .val-output { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+  .val-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; text-align: center; }
+  .val-card.featured { border-color: var(--accent-border); background: var(--accent-dim); }
+  .val-card .vlabel { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .val-card.featured .vlabel { color: var(--accent); }
+  .val-card .vvalue { font-size: 24px; font-weight: 500; }
+  .val-card.featured .vvalue { color: var(--accent); }
+  .sens-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  .sens-table th { text-align: right; padding: 6px 8px; color: var(--text-muted); font-weight: 400; border-bottom: 1px solid var(--border); font-size: 11px; }
+  .sens-table th:first-child { text-align: left; }
+  .sens-table td { text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .sens-table td:first-child { text-align: left; color: var(--text-sec); }
+  .sens-table .base-cell { color: var(--accent) !important; font-weight: 500; }
+  .sens-table tr:last-child td { border-bottom: none; }
+  .divider { height: 1px; background: var(--border); margin: 2rem 0; }
+  .note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  @media (max-width: 640px) {
+    .company-grid { grid-template-columns: 1fr; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .assumptions-grid { grid-template-columns: 1fr; }
+    .val-output { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .hero { padding: 3rem 1rem 2.5rem; }
+    .main { padding: 2rem 1rem 4rem; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-brand">Ethan Rainer <span>/ Equity Research</span></div>
+  <div class="nav-links">
+    <a href="#models" class="active">Models</a>
+    <a href="mailto:er@williams.edu">Contact</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-eyebrow">Equity Research · DCF Valuation</div>
+  <h1>Financial modeling<br>from first principles</h1>
+  <p>Discounted cash flow models built on public financial data. Select a company below to explore the model, adjust assumptions, and stress-test the valuation.</p>
+  <div class="hero-tags">
+    <span class="tag">Consumer Retail</span>
+    <span class="tag">Technology / Media</span>
+    <span class="tag">Discounted Cash Flow</span>
+    <span class="tag">Sensitivity Analysis</span>
+  </div>
+</div>
+<div class="main" id="models">
+  <div class="section-title">Select a company</div>
+  <div class="company-grid">
+    <div class="company-card active" id="card-dks" onclick="selectCompany('dks')">
+      <div class="card-ticker">DKS · NYSE</div>
+      <div class="card-name">Dick's Sporting Goods</div>
+      <div class="card-desc">Largest U.S. sporting goods retailer undergoing a major capital expansion through its House of Sport format.</div>
+      <div class="card-stats">
+        <div class="card-stat"><div class="label">Revenue</div><div class="value">$13.4B</div></div>
+        <div class="card-stat"><div class="label">Sector</div><div class="value">Retail</div></div>
+      </div>
+    </div>
+    <div class="company-card" id="card-spot" onclick="selectCompany('spot')">
+      <div class="card-ticker">SPOT · NYSE</div>
+      <div class="card-name">Spotify Technology</div>
+      <div class="card-desc">Global audio streaming leader that turned its first full year of operating profitability in 2024 after years of deliberate investment.</div>
+      <div class="card-stats">
+        <div class="card-stat"><div class="label">Revenue</div><div class="value">$15.7B</div></div>
+        <div class="card-stat"><div class="label">Sector</div><div class="value">Tech / Media</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="model-section active" id="model-dks">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('dks','overview')">Overview</button>
+      <button class="tab-btn" onclick="showTab('dks','financials')">Financials</button>
+      <button class="tab-btn" onclick="showTab('dks','dcf')">DCF model</button>
+      <button class="tab-btn" onclick="showTab('dks','cashflow')">Cash flow</button>
+    </div>
+    <div class="tab-panel active" id="dks-overview">
+      <div class="metric-grid">
+        <div class="metric-card"><div class="mlabel">Revenue (FY25)</div><div class="mvalue">$13.4B</div><div class="msub pos">+3.5% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Gross margin</div><div class="mvalue">35.9%</div><div class="msub neg">▼ from 38.3% in FY21</div></div>
+        <div class="metric-card"><div class="mlabel">Operating income</div><div class="mvalue">$1.47B</div><div class="msub">10.96% margin</div></div>
+        <div class="metric-card"><div class="mlabel">Net income</div><div class="mvalue">$1.17B</div><div class="msub pos">+11.4% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Free cash flow</div><div class="mvalue">$509M</div><div class="msub neg">▼ from $1.3B in FY21</div></div>
+        <div class="metric-card"><div class="mlabel">CapEx (FY25)</div><div class="mvalue">$803M</div><div class="msub neg">+36.8% YoY</div></div>
+      </div>
+      <div class="chart-card">
+        <h3>Revenue vs. gross profit (FY21–FY25, $M)</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Revenue</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Gross profit</div>
+        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="dks-rev-chart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Margin compression (FY21–FY25, %)</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Gross margin</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Operating margin</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>FCF margin</div>
+        </div>
+        <div class="chart-wrap" style="height:200px"><canvas id="dks-margin-chart"></canvas></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="dks-financials">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Income statement ($M)</th><th>FY21</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th></tr></thead>
+          <tbody>
+            <tr class="bold-row"><td>Revenue</td><td>12,293</td><td>12,368</td><td>12,984</td><td>13,443</td><td>13,443</td></tr>
+            <tr><td>Cost of revenue</td><td>7,581</td><td>8,084</td><td>8,451</td><td>8,617</td><td>8,617</td></tr>
+            <tr class="bold-row"><td>Gross profit</td><td>4,712</td><td>4,285</td><td>4,534</td><td>4,826</td><td>4,826</td></tr>
+            <tr><td>Gross margin</td><td>38.3%</td><td>34.6%</td><td>34.9%</td><td>35.9%</td><td>35.9%</td></tr>
+            <tr><td>SG&amp;A</td><td>2,664</td><td>2,800</td><td>3,184</td><td>3,294</td><td>3,294</td></tr>
+            <tr class="bold-row"><td>Operating income</td><td>2,035</td><td>1,463</td><td>1,282</td><td>1,474</td><td>1,474</td></tr>
+            <tr><td>Operating margin</td><td>16.6%</td><td>11.8%</td><td>9.9%</td><td>11.0%</td><td>11.0%</td></tr>
+            <tr><td>Interest expense</td><td>(58)</td><td>(95)</td><td>(58)</td><td>(53)</td><td>(53)</td></tr>
+            <tr class="bold-row"><td>Net income</td><td>1,520</td><td>1,043</td><td>1,047</td><td>1,165</td><td>1,165</td></tr>
+            <tr><td>Net margin</td><td>12.4%</td><td>8.4%</td><td>8.1%</td><td>8.7%</td><td>8.7%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="divider"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Balance sheet highlights ($M)</th><th>FY21</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th></tr></thead>
+          <tbody>
+            <tr><td>Cash &amp; equivalents</td><td>2,643</td><td>1,924</td><td>1,801</td><td>1,690</td><td>1,353</td></tr>
+            <tr><td>Inventory</td><td>2,298</td><td>2,831</td><td>2,849</td><td>3,350</td><td>4,908</td></tr>
+            <tr><td>Total assets</td><td>9,042</td><td>8,992</td><td>9,312</td><td>10,459</td><td>17,412</td></tr>
+            <tr><td>Long-term debt</td><td>4,030</td><td>1,541</td><td>1,483</td><td>1,484</td><td>1,905</td></tr>
+            <tr class="bold-row"><td>Shareholders' equity</td><td>2,102</td><td>2,525</td><td>2,617</td><td>3,198</td><td>5,540</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="dks-dcf">
+      <div class="assumptions-grid">
+        <div class="assumption-box">
+          <h3>Revenue assumptions</h3>
+          <div class="arow"><label>Revenue growth (Yr 1–3)</label><div class="arow-controls"><input type="range" min="0" max="15" step="0.5" value="5" id="dks-gN" oninput="updateDCF('dks')"><span class="aval" id="dks-gN-v">5.0%</span></div></div>
+          <div class="arow"><label>Revenue growth (Yr 4–5)</label><div class="arow-controls"><input type="range" min="0" max="10" step="0.5" value="3" id="dks-gF" oninput="updateDCF('dks')"><span class="aval" id="dks-gF-v">3.0%</span></div></div>
+          <div class="arow"><label>Terminal growth rate</label><div class="arow-controls"><input type="range" min="1" max="4" step="0.5" value="2.5" id="dks-tg" oninput="updateDCF('dks')"><span class="aval" id="dks-tg-v">2.5%</span></div></div>
+        </div>
+        <div class="assumption-box">
+          <h3>Margin &amp; discount assumptions</h3>
+          <div class="arow"><label>EBIT margin</label><div class="arow-controls"><input type="range" min="6" max="16" step="0.5" value="10" id="dks-em" oninput="updateDCF('dks')"><span class="aval" id="dks-em-v">10.0%</span></div></div>
+          <div class="arow"><label>Tax rate</label><div class="arow-controls"><input type="range" min="18" max="30" step="0.5" value="24" id="dks-tx" oninput="updateDCF('dks')"><span class="aval" id="dks-tx-v">24.0%</span></div></div>
+          <div class="arow"><label>WACC</label><div class="arow-controls"><input type="range" min="6" max="14" step="0.5" value="9" id="dks-wc" oninput="updateDCF('dks')"><span class="aval" id="dks-wc-v">9.0%</span></div></div>
+          <div class="arow"><label>CapEx (% of revenue)</label><div class="arow-controls"><input type="range" min="3" max="10" step="0.5" value="6" id="dks-cx" oninput="updateDCF('dks')"><span class="aval" id="dks-cx-v">6.0%</span></div></div>
+          <div class="arow"><label>D&amp;A (% of revenue)</label><div class="arow-controls"><input type="range" min="2" max="6" step="0.5" value="3" id="dks-da" oninput="updateDCF('dks')"><span class="aval" id="dks-da-v">3.0%</span></div></div>
+        </div>
+      </div>
+      <div class="val-output" id="dks-val-output"></div>
+      <div class="chart-card">
+        <h3>Projected free cash flow ($M)</h3>
+        <div class="chart-wrap" style="height:200px"><canvas id="dks-fcf-chart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Sensitivity — implied share price by WACC and terminal growth rate</h3>
+        <div id="dks-sens"></div>
+        <p class="note">Net debt: $1,905M long-term debt minus $1,690M cash = $215M. Diluted shares outstanding: 83M.</p>
+      </div>
+    </div>
+    <div class="tab-panel" id="dks-cashflow">
+      <div class="chart-card">
+        <h3>Operating cash flow vs. CapEx vs. free cash flow ($M)</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Operating CF</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>CapEx</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Free CF</div>
+        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="dks-cf-chart"></canvas></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cash flow statement ($M)</th><th>FY21</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th></tr></thead>
+          <tbody>
+            <tr class="bold-row"><td>Operating cash flow</td><td>1,617</td><td>922</td><td>1,527</td><td>1,312</td><td>1,537</td></tr>
+            <tr><td>Depreciation &amp; amortization</td><td>323</td><td>365</td><td>394</td><td>400</td><td>489</td></tr>
+            <tr><td>Change in inventory</td><td>(344)</td><td>(533)</td><td>19</td><td>(501)</td><td>181</td></tr>
+            <tr class="bold-row"><td>Capital expenditures</td><td>(308)</td><td>(364)</td><td>(587)</td><td>(803)</td><td>(1,137)</td></tr>
+            <tr class="bold-row"><td>Free cash flow</td><td>1,309</td><td>558</td><td>940</td><td>509</td><td>400</td></tr>
+            <tr><td>FCF margin</td><td>10.6%</td><td>4.5%</td><td>7.2%</td><td>3.8%</td><td>2.3%</td></tr>
+            <tr><td>Share buybacks</td><td>(1,177)</td><td>(502)</td><td>(747)</td><td>(306)</td><td>(416)</td></tr>
+            <tr><td>Dividends paid</td><td>(603)</td><td>(163)</td><td>(351)</td><td>(362)</td><td>(414)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="model-section" id="model-spot">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('spot','overview')">Overview</button>
+      <button class="tab-btn" onclick="showTab('spot','financials')">Financials</button>
+      <button class="tab-btn" onclick="showTab('spot','dcf')">DCF model</button>
+      <button class="tab-btn" onclick="showTab('spot','cashflow')">Cash flow</button>
+    </div>
+    <div class="tab-panel active" id="spot-overview">
+      <div class="metric-grid">
+        <div class="metric-card"><div class="mlabel">Revenue (2024)</div><div class="mvalue">$15.7B</div><div class="msub pos">+18.7% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Gross margin</div><div class="mvalue">29.2%</div><div class="msub pos">▲ from 25.3% in 2021</div></div>
+        <div class="metric-card"><div class="mlabel">Operating income</div><div class="mvalue">$1.47B</div><div class="msub pos">First profitable year</div></div>
+        <div class="metric-card"><div class="mlabel">Net income</div><div class="mvalue">$1.14B</div><div class="msub pos">vs. $(532M) in 2023</div></div>
+        <div class="metric-card"><div class="mlabel">MAUs</div><div class="mvalue">675M</div><div class="msub pos">+11% YoY</div></div>
+        <div class="metric-card"><div class="mlabel">Premium subscribers</div><div class="mvalue">263M</div><div class="msub pos">+12% YoY</div></div>
+      </div>
+      <div class="chart-card">
+        <h3>Revenue vs. gross profit (2021–2024, $M USD equiv.)</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Revenue</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Gross profit</div>
+        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="spot-rev-chart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Path to profitability — operating income/(loss) ($M)</h3>
+        <div class="chart-wrap" style="height:200px"><canvas id="spot-oi-chart"></canvas></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="spot-financials">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Income statement ($M USD)</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr></thead>
+          <tbody>
+            <tr class="bold-row"><td>Revenue</td><td>11,727</td><td>13,247</td><td>15,673</td><td>17,186</td></tr>
+            <tr><td>Cost of revenue</td><td>8,801</td><td>9,850</td><td>10,949</td><td>11,690</td></tr>
+            <tr class="bold-row"><td>Gross profit</td><td>2,926</td><td>3,397</td><td>4,724</td><td>5,496</td></tr>
+            <tr><td>Gross margin</td><td>25.0%</td><td>25.6%</td><td>30.1%</td><td>32.0%</td></tr>
+            <tr><td>Operating expenses (R&amp;D + S&amp;M + G&amp;A)</td><td>3,585</td><td>3,843</td><td>3,359</td><td>3,298</td></tr>
+            <tr class="bold-row"><td>Operating income/(loss)</td><td>(659)</td><td>(446)</td><td>1,365</td><td>2,198</td></tr>
+            <tr><td>Operating margin</td><td>(5.6%)</td><td>(3.4%)</td><td>8.7%</td><td>12.8%</td></tr>
+            <tr><td>Net income/(loss)</td><td>(532)</td><td>(532)</td><td>1,138</td><td>2,212</td></tr>
+            <tr><td>Net margin</td><td>(4.5%)</td><td>(4.0%)</td><td>7.3%</td><td>12.9%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="divider"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Key operating metrics</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr></thead>
+          <tbody>
+            <tr><td>Monthly active users (M)</td><td>406</td><td>456</td><td>602</td><td>675</td></tr>
+            <tr><td>Premium subscribers (M)</td><td>180</td><td>205</td><td>236</td><td>263</td></tr>
+            <tr><td>Premium revenue ($M)</td><td>9,688</td><td>10,956</td><td>13,082</td><td>14,604</td></tr>
+            <tr><td>Ad-supported revenue ($M)</td><td>2,039</td><td>2,291</td><td>2,591</td><td>2,582</td></tr>
+            <tr class="bold-row"><td>Premium % of total revenue</td><td>82.6%</td><td>82.7%</td><td>83.5%</td><td>85.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="spot-dcf">
+      <div class="assumptions-grid">
+        <div class="assumption-box">
+          <h3>Revenue assumptions</h3>
+          <div class="arow"><label>Revenue growth (Yr 1–3)</label><div class="arow-controls"><input type="range" min="5" max="30" step="1" value="18" id="spot-gN" oninput="updateDCF('spot')"><span class="aval" id="spot-gN-v">18%</span></div></div>
+          <div class="arow"><label>Revenue growth (Yr 4–5)</label><div class="arow-controls"><input type="range" min="5" max="20" step="1" value="12" id="spot-gF" oninput="updateDCF('spot')"><span class="aval" id="spot-gF-v">12%</span></div></div>
+          <div class="arow"><label>Terminal growth rate</label><div class="arow-controls"><input type="range" min="2" max="5" step="0.5" value="3" id="spot-tg" oninput="updateDCF('spot')"><span class="aval" id="spot-tg-v">3.0%</span></div></div>
+        </div>
+        <div class="assumption-box">
+          <h3>Margin &amp; discount assumptions</h3>
+          <div class="arow"><label>EBIT margin</label><div class="arow-controls"><input type="range" min="5" max="25" step="1" value="14" id="spot-em" oninput="updateDCF('spot')"><span class="aval" id="spot-em-v">14%</span></div></div>
+          <div class="arow"><label>Tax rate</label><div class="arow-controls"><input type="range" min="5" max="25" step="1" value="10" id="spot-tx" oninput="updateDCF('spot')"><span class="aval" id="spot-tx-v">10%</span></div></div>
+          <div class="arow"><label>WACC</label><div class="arow-controls"><input type="range" min="7" max="15" step="0.5" value="10" id="spot-wc" oninput="updateDCF('spot')"><span class="aval" id="spot-wc-v">10.0%</span></div></div>
+          <div class="arow"><label>CapEx (% of revenue)</label><div class="arow-controls"><input type="range" min="0.5" max="4" step="0.5" value="1" id="spot-cx" oninput="updateDCF('spot')"><span class="aval" id="spot-cx-v">1.0%</span></div></div>
+          <div class="arow"><label>D&amp;A (% of revenue)</label><div class="arow-controls"><input type="range" min="0.5" max="3" step="0.5" value="1" id="spot-da" oninput="updateDCF('spot')"><span class="aval" id="spot-da-v">1.0%</span></div></div>
+        </div>
+      </div>
+      <div class="val-output" id="spot-val-output"></div>
+      <div class="chart-card">
+        <h3>Projected free cash flow ($M)</h3>
+        <div class="chart-wrap" style="height:200px"><canvas id="spot-fcf-chart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Sensitivity — implied share price by WACC and terminal growth rate</h3>
+        <div id="spot-sens"></div>
+        <p class="note">Net cash position: Spotify held ~$6.2B in cash and investments vs. ~$1.5B in debt as of end-2024, giving net cash of ~$4.7B. Diluted shares outstanding: ~205M.</p>
+      </div>
+    </div>
+    <div class="tab-panel" id="spot-cashflow">
+      <div class="chart-card">
+        <h3>Operating cash flow vs. free cash flow ($M)</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Operating CF</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Free CF</div>
+        </div>
+        <div class="chart-wrap" style="height:200px"><canvas id="spot-cf-chart"></canvas></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cash flow highlights ($M USD)</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr></thead>
+          <tbody>
+            <tr class="bold-row"><td>Operating cash flow</td><td>354</td><td>98</td><td>1,832</td><td>2,333</td></tr>
+            <tr><td>Capital expenditures</td><td>(97)</td><td>(91)</td><td>(73)</td><td>(55)</td></tr>
+            <tr class="bold-row"><td>Free cash flow</td><td>257</td><td>7</td><td>1,759</td><td>2,278</td></tr>
+            <tr><td>FCF margin</td><td>2.2%</td><td>0.1%</td><td>11.2%</td><td>13.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Spotify's CapEx is minimal because it is a software business with no physical retail infrastructure. The primary investment is in content licensing, R&amp;D, and personnel, all of which flow through the income statement rather than the balance sheet.</p>
+    </div>
+  </div>
+</div>
+<script>
+const dksParams = { baseRev: 13443, netDebt: 215, shares: 83 };
+const spotParams = { baseRev: 17186, netDebt: -4700, shares: 205 };
+let chartRegistry = {};
+function destroyChart(id) { if (chartRegistry[id]) { chartRegistry[id].destroy(); delete chartRegistry[id]; } }
+function makeChart(id, config) { destroyChart(id); const ctx = document.getElementById(id); if (!ctx) return; chartRegistry[id] = new Chart(ctx, config); }
+const gridColor = 'rgba(255,255,255,0.06)';
+const tickColor = '#555552';
+const baseOpts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 11 } } }, y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } } } } };
+function selectCompany(co) {
+  document.querySelectorAll('.company-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.model-section').forEach(m => m.classList.remove('active'));
+  document.getElementById('card-' + co).classList.add('active');
+  document.getElementById('model-' + co).classList.add('active');
+  if (co === 'spot') { updateDCF('spot'); initSpotCharts(); }
+}
+function showTab(co, tab) {
+  const tabs = document.querySelectorAll('#model-' + co + ' .tab-btn');
+  const panels = document.querySelectorAll('#model-' + co + ' .tab-panel');
+  tabs.forEach(t => t.classList.remove('active'));
+  panels.forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(co + '-' + tab).classList.add('active');
+  if (tab === 'dcf') updateDCF(co);
+}
+function updateDCF(co) {
+  const p = co === 'dks' ? dksParams : spotParams;
+  const gN = parseFloat(document.getElementById(co+'-gN').value)/100;
+  const gF = parseFloat(document.getElementById(co+'-gF').value)/100;
+  const tg = parseFloat(document.getElementById(co+'-tg').value)/100;
+  const em = parseFloat(document.getElementById(co+'-em').value)/100;
+  const tx = parseFloat(document.getElementById(co+'-tx').value)/100;
+  const wc = parseFloat(document.getElementById(co+'-wc').value)/100;
+  const cx = parseFloat(document.getElementById(co+'-cx').value)/100;
+  const da = parseFloat(document.getElementById(co+'-da').value)/100;
+  document.getElementById(co+'-gN-v').textContent = (gN*100).toFixed(1)+'%';
+  document.getElementById(co+'-gF-v').textContent = (gF*100).toFixed(1)+'%';
+  document.getElementById(co+'-tg-v').textContent = (tg*100).toFixed(1)+'%';
+  document.getElementById(co+'-em-v').textContent = (em*100).toFixed(1)+'%';
+  document.getElementById(co+'-tx-v').textContent = (tx*100).toFixed(1)+'%';
+  document.getElementById(co+'-wc-v').textContent = (wc*100).toFixed(1)+'%';
+  document.getElementById(co+'-cx-v').textContent = (cx*100).toFixed(1)+'%';
+  document.getElementById(co+'-da-v').textContent = (da*100).toFixed(1)+'%';
+  let rev = p.baseRev;
+  const fcfs = [], pvs = [];
+  for (let i = 1; i <= 5; i++) {
+    rev = rev * (1 + (i <= 3 ? gN : gF));
+    const fcf = rev * em * (1 - tx) + rev * da - rev * cx;
+    fcfs.push(fcf);
+    pvs.push(fcf / Math.pow(1 + wc, i));
+  }
+  const tv = fcfs[4] * (1 + tg) / (wc - tg);
+  const pvTv = tv / Math.pow(1 + wc, 5);
+  const ev = pvs.reduce((a,b)=>a+b,0) + pvTv;
+  const equity = ev - p.netDebt;
+  const price = equity / p.shares;
+  document.getElementById(co+'-val-output').innerHTML = `<div class="val-card"><div class="vlabel">Enterprise value</div><div class="vvalue">$${(ev/1000).toFixed(1)}B</div></div><div class="val-card featured"><div class="vlabel">Implied share price</div><div class="vvalue">$${Math.round(price)}</div></div><div class="val-card"><div class="vlabel">Terminal value % of EV</div><div class="vvalue">${Math.round(pvTv/ev*100)}%</div></div>`;
+  makeChart(co+'-fcf-chart', { type: 'bar', data: { labels: ['Yr 1','Yr 2','Yr 3','Yr 4','Yr 5'], datasets: [{ data: fcfs.map(v=>Math.round(v)), backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+Math.round(v)+'M' } } } } });
+  const waccs = co==='dks' ? [7,8,9,10,11] : [8,9,10,11,12];
+  const tgs = co==='dks' ? [1.5,2.0,2.5,3.0,3.5] : [2.0,2.5,3.0,3.5,4.0];
+  const baseW = co==='dks' ? 9 : 10;
+  const baseTG = co==='dks' ? 2.5 : 3.0;
+  let html = '<table class="sens-table"><thead><tr><th>WACC / TGR</th>';
+  tgs.forEach(t => { html += `<th>${t.toFixed(1)}%</th>`; });
+  html += '</tr></thead><tbody>';
+  waccs.forEach(w => {
+    html += `<tr><td>${w}.0%</td>`;
+    tgs.forEach(t => {
+      let r2 = p.baseRev, pv2s = [];
+      for (let i=1;i<=5;i++) { r2 = r2*(1+(i<=3?gN:gF)); const f = r2*em*(1-tx)+r2*da-r2*cx; pv2s.push(f/Math.pow(1+w/100,i)); }
+      const lf = r2*em*(1-tx)+r2*da-r2*cx;
+      const tv2 = lf*(1+t/100)/((w/100)-(t/100));
+      const ev2 = pv2s.reduce((a,b)=>a+b,0)+tv2/Math.pow(1+w/100,5);
+      const sp = Math.round((ev2-p.netDebt)/p.shares);
+      const isBase = w===baseW && t===baseTG;
+      html += `<td class="${isBase?'base-cell':''}">$${sp}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById(co+'-sens').innerHTML = html;
+}
+function initDKSCharts() {
+  makeChart('dks-rev-chart', { type: 'bar', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ label: 'Revenue', data: [12293,12368,12984,13443,13443], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'Gross profit', data: [4712,4285,4534,4826,4826], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('dks-margin-chart', { type: 'line', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ data: [38.3,34.6,34.9,35.9,32.9], borderColor: '#60a5fa', tension: 0.3, pointRadius: 4, fill: false, borderWidth: 2 },{ data: [16.6,11.8,9.9,11.0,6.4], borderColor: '#4ade80', tension: 0.3, pointRadius: 4, fill: false, borderWidth: 2 },{ data: [10.6,4.5,7.2,3.8,2.3], borderColor: '#fbbf24', tension: 0.3, pointRadius: 4, fill: false, borderWidth: 2 }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, min: 0, ticks: { ...baseOpts.scales.y.ticks, callback: v => v+'%' } } } } });
+  makeChart('dks-cf-chart', { type: 'bar', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ label: 'Op CF', data: [1617,922,1527,1312,1537], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'CapEx', data: [-308,-364,-587,-803,-1137], backgroundColor: '#f87171', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [1309,558,940,509,400], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+}
+function initSpotCharts() {
+  makeChart('spot-rev-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024'], datasets: [{ label: 'Revenue', data: [11727,13247,15673,17186], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'Gross profit', data: [2926,3397,4724,5496], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('spot-oi-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024'], datasets: [{ data: [-659,-446,1365,2198], backgroundColor: ['#f87171','#f87171','#4ade80','#4ade80'], borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('spot-cf-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024'], datasets: [{ label: 'Op CF', data: [354,98,1832,2333], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [257,7,1759,2278], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+}
+window.addEventListener('load', () => { initDKSCharts(); updateDCF('dks'); });
+</script>
+</body>
+</html>
