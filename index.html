@@ -107,8 +107,16 @@
   .sens-table tr:last-child td { border-bottom: none; }
   .divider { height: 1px; background: var(--border); margin: 2rem 0; }
   .note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
-  .section-title { font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
-  .methodology { font-size: 14px; color: var(--text-sec); line-height: 1.85; }
+.section-title { font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.page-section { display: none; }
+.page-section.active { display: block; }
+.opinions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.opinion-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; text-decoration: none; display: block; transition: border-color 0.2s, background 0.2s; }
+.opinion-card:hover { border-color: var(--accent-border); background: var(--accent-dim); }
+.opinion-card .op-date { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+.opinion-card .op-title { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.4; margin-bottom: 8px; }
+.opinion-card .op-desc { font-size: 13px; color: var(--text-sec); line-height: 1.5; }
+.opinion-card .op-arrow { font-size: 12px; color: var(--accent); margin-top: 1rem; display: block; }  .methodology { font-size: 14px; color: var(--text-sec); line-height: 1.85; }
   .methodology h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); font-weight: 400; margin-bottom: 0.75rem; margin-top: 1.75rem; }
   .methodology h4:first-child { margin-top: 0; }
   .methodology p { margin-bottom: 1rem; }
@@ -127,7 +135,7 @@
 <body>
 <nav>
   <div class="nav-brand">Ethan Rainer <span>/ Equity Research</span></div>
-  <div class="nav-links"><a href="#models">Models</a></div>
+  <div class="nav-links"><a href="#" onclick="showPage('models'); return false;" id="nav-models" class="active">Models</a><a href="#" onclick="showPage('opinions'); return false;" id="nav-opinions">Opinions</a></div>
 </nav>
 <div class="hero">
   <div class="hero-eyebrow">Equity Research · DCF Valuation</div>
@@ -140,7 +148,7 @@
     <span class="tag">Sensitivity Analysis</span>
   </div>
 </div>
-<div class="main" id="models">
+<div class="main"><div class="page-section active" id="page-models">
   <div class="section-title">Select a company</div>
   <div class="company-grid">
     <div class="company-card active" id="card-dks" onclick="selectCompany('dks')">
@@ -426,6 +434,19 @@
     </div>
   </div>
 </div>
+</div>
+<div class="page-section" id="page-opinions">
+<div class="section-title">Analysis &amp; opinion</div>
+<p style="font-size:14px;color:var(--text-sec);line-height:1.7;max-width:600px;">Original writing on artificial intelligence, capital markets, and corporate finance. Articles are independently researched and written.</p>
+<div class="opinions-grid">
+<a class="opinion-card" href="article-1.html">
+<div class="op-date">July 2026</div>
+<div class="op-title">The Public Built It. Who Gets to Keep It?</div>
+<div class="op-desc">Eight decades of federal investment built the foundation for AI. As the technology generates trillions in private wealth, the people who funded it face displacement.</div>
+<span class="op-arrow">Read article →</span>
+</a>
+</div>
+</div>
 <footer style="max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;border-top:1px solid rgba(255,255,255,0.08);">
   <p style="font-size:11px;color:#555552;line-height:1.7;">This site is for educational purposes only. All financial data sourced from public SEC filings and company disclosures. Nothing contained herein constitutes investment advice or a solicitation to buy or sell securities. All projections reflect the author's own assumptions and should not be relied upon for investment decisions.</p>
   <p style="font-size:11px;color:#555552;text-align:center;margin-top:1rem;">© 2026 Ethan Rainer. All rights reserved.</p>
@@ -522,7 +543,13 @@ function initSpotCharts() {
   makeChart('spot-oi-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ data: [-659,-446,1365,2198,2404], backgroundColor: ['#f87171','#f87171','#4ade80','#4ade80','#4ade80'], borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
   makeChart('spot-cf-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ label: 'Op CF', data: [354,98,1832,2333,3010], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [257,7,1759,2278,2943], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
 }
-window.addEventListener('load', () => { initDKSCharts(); updateDCF('dks'); });
-</script>
+function showPage(page) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+  if (page === 'models') { setTimeout(() => { initDKSCharts(); updateDCF('dks'); }, 50); }
+}
+window.addEventListener('load', () => { initDKSCharts(); updateDCF('dks'); });</script>
 </body>
 </html>
