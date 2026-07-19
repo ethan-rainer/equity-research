@@ -108,6 +108,22 @@
   .divider { height: 1px; background: var(--border); margin: 2rem 0; }
   .note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
 .section-title { font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 6px; border-radius: var(--radius); transition: background 0.15s; }
+.hamburger:hover { background: var(--surface2); }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text-sec); border-radius: 2px; transition: background 0.15s; }
+.hamburger:hover span { background: var(--text); }
+.side-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100vh; background: var(--surface); border-right: 1px solid var(--border-strong); z-index: 300; transition: left 0.25s ease; padding: 0; display: flex; flex-direction: column; }
+.side-menu.open { left: 0; }
+.side-menu-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); height: 56px; }
+.side-menu-title { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+.side-menu-close { background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; line-height: 1; padding: 0; transition: color 0.15s; }
+.side-menu-close:hover { color: var(--text); }
+.side-menu-link { display: flex; align-items: center; gap: 12px; padding: 1rem 1.5rem; font-size: 15px; color: var(--text-sec); text-decoration: none; border-bottom: 1px solid var(--border); transition: background 0.15s, color 0.15s; }
+.side-menu-link:hover { background: var(--surface2); color: var(--text); }
+.side-menu-link.active { color: var(--accent); background: var(--accent-dim); }
+.side-menu-icon { font-size: 16px; }
+.side-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 299; display: none; }
+.side-menu-overlay.visible { display: block; }
 .page-section { display: none; }
 .page-section.active { display: block; padding: 3rem 2rem 6rem; max-width: 900px; margin: 0 auto; }
 .opinions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; max-width: 900px; margin-left: auto; margin-right: auto; }.opinion-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; text-decoration: none; display: block; transition: border-color 0.2s, background 0.2s; }
@@ -134,7 +150,23 @@
 <body>
 <nav>
   <div class="nav-brand">Ethan Rainer <span>/ Equity Research</span></div>
-<div class="nav-links"><a href="#" onclick="showPage('models'); return false;" id="nav-models" class="active">Models</a><a href="#" onclick="showPage('opinions'); return false;" id="nav-opinions">Journal</a></div></nav>
+  <button class="hamburger" onclick="toggleMenu()" id="hamburger-btn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="side-menu" id="side-menu">
+  <div class="side-menu-header">
+    <span class="side-menu-title">Menu</span>
+    <button class="side-menu-close" onclick="toggleMenu()">×</button>
+  </div>
+  <a href="#" class="side-menu-link active" id="nav-models" onclick="toggleMenu(); showPage('models'); return false;">
+    <span class="side-menu-icon">📊</span> Models
+  </a>
+  <a href="#" class="side-menu-link" id="nav-opinions" onclick="toggleMenu(); showPage('opinions'); return false;">
+    <span class="side-menu-icon">📝</span> Journal
+  </a>
+</div>
+<div class="side-menu-overlay" id="side-menu-overlay" onclick="toggleMenu()"></div>
 <div class="hero" id="hero-models">
   <div class="hero-eyebrow">Equity Research · DCF Valuation</div>
   <h1>Financial modeling<br>from first principles</h1>
@@ -546,9 +578,15 @@ function initSpotCharts() {
   makeChart('spot-oi-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ data: [-659,-446,1365,2198,2404], backgroundColor: ['#f87171','#f87171','#4ade80','#4ade80','#4ade80'], borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
   makeChart('spot-cf-chart', { type: 'bar', data: { labels: ['2021','2022','2023','2024','2025'], datasets: [{ label: 'Op CF', data: [354,98,1832,2333,3010], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [257,7,1759,2278,2943], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
 }
+function toggleMenu() {
+  const menu = document.getElementById('side-menu');
+  const overlay = document.getElementById('side-menu-overlay');
+  menu.classList.toggle('open');
+  overlay.classList.toggle('visible');
+}
 function showPage(page) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.side-menu-link').forEach(a => a.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   document.getElementById('nav-' + page).classList.add('active');
   document.getElementById('hero-models').style.display = page === 'models' ? 'block' : 'none';
