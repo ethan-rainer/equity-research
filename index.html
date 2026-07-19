@@ -109,9 +109,8 @@
   .note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
 .section-title { font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .page-section { display: none; }
-.page-section.active { display: block; }
-.opinions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-.opinion-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; text-decoration: none; display: block; transition: border-color 0.2s, background 0.2s; }
+.page-section.active { display: block; padding: 3rem 2rem 6rem; max-width: 900px; margin: 0 auto; }
+.opinions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; max-width: 900px; margin-left: auto; margin-right: auto; }.opinion-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; text-decoration: none; display: block; transition: border-color 0.2s, background 0.2s; }
 .opinion-card:hover { border-color: var(--accent-border); background: var(--accent-dim); }
 .opinion-card .op-date { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
 .opinion-card .op-title { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.4; margin-bottom: 8px; }
@@ -135,9 +134,8 @@
 <body>
 <nav>
   <div class="nav-brand">Ethan Rainer <span>/ Equity Research</span></div>
-  <div class="nav-links"><a href="#" onclick="showPage('models'); return false;" id="nav-models" class="active">Models</a><a href="#" onclick="showPage('opinions'); return false;" id="nav-opinions">Opinions</a></div>
-</nav>
-<div class="hero">
+<div class="nav-links"><a href="#" onclick="showPage('models'); return false;" id="nav-models" class="active">Models</a><a href="#" onclick="showPage('opinions'); return false;" id="nav-opinions">Opinions</a></div></nav>
+<div class="hero" id="hero-models">
   <div class="hero-eyebrow">Equity Research · DCF Valuation</div>
   <h1>Financial modeling<br>from first principles</h1>
   <p>Discounted cash flow models built on public financial data. Select a company below to explore the model, adjust assumptions, and stress-test the valuation.</p>
@@ -147,6 +145,11 @@
     <span class="tag">Discounted Cash Flow</span>
     <span class="tag">Sensitivity Analysis</span>
   </div>
+</div>
+<div class="hero" id="hero-opinions" style="display:none;">
+  <div class="hero-eyebrow">Analysis · Opinion</div>
+  <h1>Writing from<br>first principles</h1>
+  <p>Original analysis on artificial intelligence, capital markets, and corporate finance. Articles are independently researched and written.</p>
 </div>
 <div class="main"><div class="page-section active" id="page-models">
   <div class="section-title">Select a company</div>
@@ -436,16 +439,16 @@
 </div>
 </div>
 <div class="page-section" id="page-opinions">
-<div class="section-title">Analysis &amp; opinion</div>
-<p style="font-size:14px;color:var(--text-sec);line-height:1.7;max-width:600px;">Original writing on artificial intelligence, capital markets, and corporate finance. Articles are independently researched and written.</p>
-<div class="opinions-grid">
-<a class="opinion-card" href="article-1.html">
-<div class="op-date">July 2026</div>
-<div class="op-title">The Public Built It. Who Gets to Keep It?</div>
-<div class="op-desc">Eight decades of federal investment built the foundation for AI. As the technology generates trillions in private wealth, the people who funded it face displacement.</div>
-<span class="op-arrow">Read article →</span>
-</a>
-</div>
+  <div class="section-title" style="margin-bottom:2rem;">Published Articles</div>
+  <div class="opinions-grid">
+    <a class="opinion-card" href="article-1.html">
+      <div class="op-date">July 2026</div>
+      <div class="op-title">The Public Built It. Who Gets to Keep It?</div>
+      <div class="op-desc">Eight decades of federal investment built the foundation for AI. As the technology generates trillions in private wealth, the people who funded it face displacement.</div>
+      <span class="op-arrow">Read article →</span>
+    </a>
+  </div>
+  <div style="height:6rem;"></div>
 </div>
 <footer style="max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;border-top:1px solid rgba(255,255,255,0.08);">
   <p style="font-size:11px;color:#555552;line-height:1.7;">This site is for educational purposes only. All financial data sourced from public SEC filings and company disclosures. Nothing contained herein constitutes investment advice or a solicitation to buy or sell securities. All projections reflect the author's own assumptions and should not be relied upon for investment decisions.</p>
@@ -548,6 +551,8 @@ function showPage(page) {
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   document.getElementById('nav-' + page).classList.add('active');
+  document.getElementById('hero-models').style.display = page === 'models' ? 'block' : 'none';
+  document.getElementById('hero-opinions').style.display = page === 'opinions' ? 'block' : 'none';
   if (page === 'models') { setTimeout(() => { initDKSCharts(); updateDCF('dks'); }, 50); }
 }
 window.addEventListener('load', () => { initDKSCharts(); updateDCF('dks'); });</script>
