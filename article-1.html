@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Public Built It. Who Gets to Keep It? — Ethan Rainer</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --text: #f0f0ee;
+    --text-sec: #888884;
+    --text-muted: #555552;
+    --accent: #4ade80;
+    --accent-dim: rgba(74,222,128,0.12);
+    --accent-border: rgba(74,222,128,0.25);
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; line-height: 1.6; min-height: 100vh; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .nav-brand { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; color: var(--text); text-decoration: none; }
+  .nav-brand span { color: var(--accent); }
+  .nav-back { font-size: 13px; color: var(--text-sec); text-decoration: none; padding: 6px 12px; border-radius: var(--radius); transition: color 0.15s, background 0.15s; }
+  .nav-back:hover { color: var(--text); background: var(--surface2); }
+  .article-wrap { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+  .article-eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 1.25rem; }
+  .article-title { font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 1rem; color: var(--text); }
+  .article-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .article-body { font-size: 16px; line-height: 1.85; color: var(--text-sec); }
+  .article-body p { margin-bottom: 1.5rem; }
+  .article-body h2 { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 500; margin: 3rem 0 1.25rem; }
+  .endnote-ref { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: var(--accent-dim); border: 1px solid var(--accent-border); border-radius: 3px; font-size: 9px; font-weight: 600; color: var(--accent); text-decoration: none; margin-left: 2px; vertical-align: super; cursor: pointer; position: relative; transition: background 0.15s; }
+  .endnote-ref:hover { background: var(--accent-border); }
+  .citation-popup { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--accent-border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; max-width: 520px; width: calc(100% - 2rem); z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.6); display: none; }
+  .citation-popup.visible { display: block; }
+  .citation-popup-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .citation-popup-num { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .citation-popup-close { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; line-height: 1; padding: 0; }
+  .citation-popup-close:hover { color: var(--text); }
+  .citation-popup-text { font-size: 12px; color: var(--text-sec); line-height: 1.6; }
+  .citation-popup-text a { color: var(--accent); }
+  .endnotes-section { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .endnotes-section h3 { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 400; margin-bottom: 1.5rem; }
+  .endnote-item { display: flex; gap: 0.75rem; margin-bottom: 1rem; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .endnote-item .en-num { flex-shrink: 0; width: 20px; font-weight: 600; color: var(--accent); font-size: 11px; padding-top: 1px; }
+  .endnote-item a { color: var(--accent); word-break: break-all; }
+  footer { max-width: 680px; margin: 0 auto; padding: 2rem 2rem 3rem; border-top: 1px solid var(--border); }
+  footer p { font-size: 11px; color: var(--text-muted); line-height: 1.7; }
+  footer .copyright { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 1rem; }
+  @media (max-width: 640px) { .article-wrap { padding: 2rem 1rem 4rem; } nav { padding: 0 1rem; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Ethan Rainer <span>/ Equity Research</span></a>
+  <a class="nav-back" href="index.html">← Journal</a>
+</nav>
+<div class="article-wrap">
+  <div class="article-eyebrow">Opinion · AI Policy · July 2026</div>
+  <h1 class="article-title">The Public Built It. Who Gets to Keep It?</h1>
+  <div class="article-meta">By Ethan Rainer &nbsp;·&nbsp; July 2026</div>
+  <div class="article-body">
+
+    <p>After developing the first successful polio vaccine in 1955, Jonas Salk was asked who owned the patent. He responded simply: <em>"The people. There is no patent. Could you patent the sun?"</em><a href="#" class="endnote-ref" onclick="showCitation(1,this);return false;">1</a> Salk spent years transforming publicly funded research into something that saved millions of lives, and he gave it away. Nobody forced him to. He simply believed that some things belong to everyone.</p>
+
+    <p>Over seventy years later, an oligopoly of frontier technology companies have built some of the most valuable products in human history on a foundation of publicly funded artificial intelligence research, and they seemingly have reached the opposite conclusion. The question worth asking is not whether that conclusion is morally wrong. It is whether the people who funded the research, and who now face displacement from the technology it produced, will have any claim on what it becomes.</p>
+
+    <h2>Foundation</h2>
+
+    <p>During World War II, federal funds and wartime mobilization fueled the study of computers and mechanical computation. Notable studies conducted by scientists the likes of Alan Turing and Norbert Wiener focused on information processing in electronic systems to solve complex code and computational problems. Unwittingly, inquiries made by these scientists and researchers into mechanical processing systems, neural networks, and machine intelligence became the foundational inquiries into the field of Artificial Intelligence.</p>
+
+    <p>The term "Artificial Intelligence" was officially coined during the 1956 Dartmouth Conference by prominent researcher John McCarthy. Artificial Intelligence (AI) then described the nascent sector of computer science concentrated on the study of simulating human intelligence in computers and machines. Now, seven decades later and seen by some as an existential threat to cognitive development and growth, the AI industry has generated over 4.4 million AI-related papers across academic journals and conference proceedings (through 2023).<a href="#" class="endnote-ref" onclick="showCitation(2,this);return false;">2</a></p>
+
+    <p>Today, it is estimated that well above 5 million published works on AI circulate through journals, conference proceedings, and print repositories. The high publication volume has been primarily driven by critical federal funding. Notably, AI-specific federal funding has increased in lockstep with the creation and distribution of AI-related academic research. Between 1984 and 1988, total federal funding for AI research tripled from $57 million to $159 million.<a href="#" class="endnote-ref" onclick="showCitation(3,this);return false;">3</a> For FY2025, AI-specific funding is expected to be $3.316 billion, comprised of $1.954 billion in core AI funding and $1.361 billion in support funding, according to the NITRD program which tracks federal AI research spending.<a href="#" class="endnote-ref" onclick="showCitation(4,this);return false;">4</a></p>
+
+    <p>In about 40 years between 1984 and 2025, AI-specific funding grew roughly 58-fold (unadjusted for inflation),<a href="#" class="endnote-ref" onclick="showCitation(5,this);return false;">5</a> yet this investment did not materialize into a product accessible to the general public at scale until November 2022, when OpenAI launched ChatGPT.<a href="#" class="endnote-ref" onclick="showCitation(6,this);return false;">6</a></p>
+
+    <p>The intellectual framework for AI consisted of the research, but without the viable infrastructure to convert those findings into a working product, the idea of a computer emulating human intelligence was a distant proposition. That was until the field hit a critical inflection point in 2017. In the summer of 2017, Google researchers published a paper titled "Attention is All You Need,"<a href="#" class="endnote-ref" onclick="showCitation(7,this);return false;">7</a> introducing the transformer architecture which provided the concrete foundation for the production of every major large language model including ChatGPT, Claude, and Gemini. Undergirded by the transformer architecture, these models have developed and improved year over year at an unprecedented pace, now standing to contribute up to $4.4 trillion annually to the global economy, according to projections from McKinsey.<a href="#" class="endnote-ref" onclick="showCitation(8,this);return false;">8</a> I'm unsure whether Mr. McCarthy envisioned the AI industry to evolve into what it has become today, but I'm nearly certain that the scale of public investment and research across decades and subsequent commercialization of that research by private companies and corporations raises a question that is at once financial, moral, and deeply human: As AI stands to generate trillions in private wealth, what becomes of the people whose tax dollars built its foundation and whose livelihoods now stand in its path?</p>
+
+    <h2>Construction</h2>
+
+    <p>Answering that question requires understanding what private corporations actually built on top of the public foundation, and at what cost.</p>
+
+    <p>One of OpenAI's most significant private contributions beyond the transformer architecture was Reinforcement Learning from Human Feedback (RLHF).<a href="#" class="endnote-ref" onclick="showCitation(9,this);return false;">9</a> RLHF taught each individual model how to be useful and safe to humans through a process that involved hiring thousands of human contractors to evaluate model outputs and provide quality assessments in what is known as a human feedback loop. This original process transformed the AI model from an impressive but often erratic language model into a product that a non-technical person could interact with.</p>
+
+    <p>Similarly, Anthropic introduced its own LLM development process known as Constitutional AI<a href="#" class="endnote-ref" onclick="showCitation(10,this);return false;">10</a> where models are given an explicit set of principles to evaluate its own outputs against, reducing the reliance on human feedback at scale.</p>
+
+    <p>These two novel processes represent proprietary innovations that took the baseline transformer architecture research and transformed it into a new product that could not be replicated by academic institutions given the lack of capital, commercial incentive, and organizational infrastructure to do so. In FY2024, the federal government directed over $64 billion to university research across 925 institutions.<a href="#" class="endnote-ref" onclick="showCitation(11,this);return false;">11</a> By comparison, Google spent $52.5 billion in 2024, $91.4 billion in 2025, and is tracking $175 to $185 billion in capital expenditures this year, representing one of the largest single-year infrastructure investments in corporate history.<a href="#" class="endnote-ref" onclick="showCitation(12,this);return false;">12</a></p>
+
+    <p>Private AI companies also assume significant systemic risk in the modern AI business model. Unlike earlier software companies, AI companies have become increasingly more capital-intensive, spending significant amounts of capital on the buildout of technical infrastructure and data centers. Data centers and server infrastructure are not liquid assets, easily sold or repurposed when their working life passes. They are capital-consuming physical assets that depreciate over five or six years,<a href="#" class="endnote-ref" onclick="showCitation(13,this);return false;">13</a> and many of the companies building them have taken on additional debt to fund the construction, increasing leverage on what already appears to be a moderate-to-high risk business model. For companies whose entire value proposition rests on a technology that did not exist in its current form three years ago, that is a bet of considerable magnitude. Additionally, downside risks including mediocre productivity gains among businesses that adopted AI, competitive displacement from well-capitalized foreign competitors like DeepSeek, and regulatory exposure through antitrust action, data privacy regulations, and energy consumption restrictions threaten revenue streams that justify the investment in the first place.</p>
+
+    <p>The significance of this private investment is not merely financial. Google's $175 to $185 billion capital expenditure commitment this year alone has accelerated the improvement of AI models at a pace that has outrun any retraining program or policy response designed to absorb the displacement it creates.</p>
+
+    <h2>Cost</h2>
+
+    <p>The human cost of that acceleration is already visible in the data. In 2024, the IMF found that roughly 40% of jobs globally face meaningful exposure to AI capabilities, a figure that rises to approximately 60% in high-income countries.<a href="#" class="endnote-ref" onclick="showCitation(14,this);return false;">14</a> Moreover, displacement risk is not evenly distributed. 79% of U.S. women work in high automation-risk jobs, compared to 58% of men.<a href="#" class="endnote-ref" onclick="showCitation(15,this);return false;">15</a> The highest automation risks are not concentrated in manual labor but in cognitive routine work including data entry operators, administrative assistants, paralegals, and financial analysts. Entry-level white-collar jobs are particularly at risk, with Anthropic CEO Dario Amodei publicly stating that AI could eliminate half of all entry-level white-collar jobs within five years, and that most workers will not recognize the danger until their positions are already gone.<a href="#" class="endnote-ref" onclick="showCitation(16,this);return false;">16</a></p>
+
+    <p>Mr. Amodei's statement becomes even more alarming given the current gap between the scale of disruption and the rollout of coherent and nuanced policies designed to address job displacement. The existing safety net, including unemployment insurance, federal job training programs like the Workforce Innovation and Opportunity Act,<a href="#" class="endnote-ref" onclick="showCitation(17,this);return false;">17</a> and community college retraining initiatives, was built for a different era of slower, more predictable technological displacement, and it shows. AI is disrupting cognitive labor at a pace those frameworks were never designed to absorb, and the current litany of proposals and prospective policies leaves the country ill-equipped to meet it. Proposed solutions include OpenAI's public wealth fund modeled on the Alaska Permanent Fund where AI companies contribute equity and returns flow to citizens.<a href="#" class="endnote-ref" onclick="showCitation(18,this);return false;">18</a> Some legislators have suggested a one-time tax on the stock of major AI companies to fund a sovereign wealth fund accessible to the public.<a href="#" class="endnote-ref" onclick="showCitation(19,this);return false;">19</a> The Mercatus Center, a credible nonpartisan research institution, has also proposed a tax code reform that rewards worker retention with favorable tax treatment.<a href="#" class="endnote-ref" onclick="showCitation(20,this);return false;">20</a></p>
+
+    <p>While these policies appear to address different areas of impact, they are fragmented, underfunded, and operating on a legislative timeline while displacement operates on a quarterly earnings timeline. Interestingly, some have proposed a Pigouvian automation tax that makes the companies generating displacement bear a proportional share of its cost. It is the same principle that requires chemical companies to fund environmental cleanup rather than passing the cost to the public. In practice it would take the form of a 1% to 3.7% tax on revenue generated by frontier AI companies, a rate proposed by MIT economists.<a href="#" class="endnote-ref" onclick="showCitation(21,this);return false;">21</a> Proponents believe the low-impact tax would avoid stifling innovation or driving automation offshore, while generating meaningful revenue for displacement relief efforts.</p>
+
+    <p>Jonas Salk did not patent the vaccine because he understood how critical a role the public played in building a foundation of research that he then leveraged to create the polio vaccine. The foundation was collective, and Salk's judgment was that when the foundation is collective, the obligation generated by what you build on top of it runs back toward the collective. AI companies have the revenue, capital, and market valuations to make a similar judgment. It is an open question whether they will do so before the cost of waiting falls entirely on the people who can least afford it.</p>
+
+    <div class="endnotes-section">
+      <h3>Endnotes</h3>
+      <div class="endnote-item"><div class="en-num">1</div><div>Salk, Jonas. Interview with Edward R. Murrow. <em>See It Now</em>. CBS, April 12, 1955. Secondary citation: Oshinsky, David M. <em>Polio: An American Story</em>. Oxford University Press, 2005.</div></div>
+      <div class="endnote-item"><div class="en-num">2</div><div>Derived from systematic classification studies of academic AI literature. Supporting reference: National Artificial Intelligence Initiative. <a href="https://ai.gov" target="_blank">ai.gov</a>.</div></div>
+      <div class="endnote-item"><div class="en-num">3</div><div>Federal Budget IQ. "Federal AI and IT Research and Development Spending Analysis." Citing NITRD/NAIIO Supplement data. <a href="https://federalbudgetiq.com/insights/federal-ai-and-it-research-and-development-spending-analysis/" target="_blank">federalbudgetiq.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">4</div><div>Networking and Information Technology Research and Development Program. <em>NITRD and NAIIO Supplement to the President's FY2025 Budget</em>. November 2023. <a href="https://www.nitrd.gov/fy2025-nitrd-naiio-supplement/" target="_blank">nitrd.gov</a></div></div>
+      <div class="endnote-item"><div class="en-num">5</div><div>Derived calculation: $3.316 billion ÷ $57 million ≈ 58x. Sources: endnotes 3 and 4. Unadjusted for inflation.</div></div>
+      <div class="endnote-item"><div class="en-num">6</div><div>OpenAI. "Introducing ChatGPT." OpenAI Blog, November 30, 2022. <a href="https://openai.com/blog/chatgpt" target="_blank">openai.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">7</div><div>Vaswani, Ashish, et al. "Attention Is All You Need." <em>arXiv preprint arXiv:1706.03762</em>, submitted June 12, 2017. <a href="https://arxiv.org/abs/1706.03762" target="_blank">arxiv.org</a></div></div>
+      <div class="endnote-item"><div class="en-num">8</div><div>McKinsey Global Institute. "The Economic Potential of Generative AI: The Next Productivity Frontier." June 2023. Full range: $2.6–$4.4 trillion annually to the global economy. <a href="https://www.mckinsey.com/mgi/media-center/ai-could-increase-corporate-profits-by-4-trillion-a-year-according-to-new-research" target="_blank">mckinsey.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">9</div><div>Ouyang, Long, et al. "Training Language Models to Follow Instructions with Human Feedback." <em>arXiv preprint arXiv:2203.02155</em>, March 2022. <a href="https://arxiv.org/abs/2203.02155" target="_blank">arxiv.org</a></div></div>
+      <div class="endnote-item"><div class="en-num">10</div><div>Bai, Yuntao, et al. "Constitutional AI: Harmlessness from AI Feedback." <em>arXiv preprint arXiv:2212.08073</em>, December 2022. <a href="https://arxiv.org/abs/2212.08073" target="_blank">arxiv.org</a></div></div>
+      <div class="endnote-item"><div class="en-num">11</div><div>National Science Foundation, NCSES. <em>Higher Education Research and Development Survey, Fiscal Year 2024</em>. NSF 26-304, December 23, 2025. <a href="https://ncses.nsf.gov/surveys/higher-education-research-development/2024" target="_blank">ncses.nsf.gov</a></div></div>
+      <div class="endnote-item"><div class="en-num">12</div><div>Alphabet Inc. Annual Report FY2025. 2026 guidance: Alphabet Q4 2025 earnings call, February 4, 2026. Confirmed by CNBC, February 5, 2026. <a href="https://www.cnbc.com/2026/02/04/alphabet-resets-the-bar-for-ai-infrastructure-spending.html" target="_blank">cnbc.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">13</div><div>Data Center Dynamics. "Google increases server life to six years, will save billions of dollars." <a href="https://www.datacenterdynamics.com/en/news/google-increases-server-life-to-six-years-will-save-billions-of-dollars/" target="_blank">datacenterdynamics.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">14</div><div>International Monetary Fund. "Gen-AI: Artificial Intelligence and the Future of Work." IMF Staff Discussion Note SDN/2024/001, January 2024. <a href="https://www.imf.org/-/media/files/publications/sdn/2024/english/sdnea2024001.pdf" target="_blank">imf.org</a></div></div>
+      <div class="endnote-item"><div class="en-num">15</div><div>National University. "AI Job Statistics." May 2025. <a href="https://www.nu.edu/blog/ai-job-statistics/" target="_blank">nu.edu</a>. Confirmed by Brookings Institution analysis.</div></div>
+      <div class="endnote-item"><div class="en-num">16</div><div>Amodei, Dario. Interview with Axios. "AI jobs danger: Sleepwalking into a white-collar bloodbath." Axios, May 28, 2025. <a href="https://www.axios.com/2025/05/28/ai-jobs-white-collar-unemployment-anthropic" target="_blank">axios.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">17</div><div>U.S. Department of Labor, Employment and Training Administration. Workforce Innovation and Opportunity Act. <a href="https://www.dol.gov/agencies/eta/wioa" target="_blank">dol.gov</a></div></div>
+      <div class="endnote-item"><div class="en-num">18</div><div>Coldewey, Devin. "OpenAI proposed donating 5% of its equity to a US sovereign wealth fund." <em>TechCrunch</em>, July 2, 2026. <a href="https://techcrunch.com/2026/07/02/openai-proposed-donating-5-of-its-equity-to-a-us-sovereign-wealth-fund/" target="_blank">techcrunch.com</a></div></div>
+      <div class="endnote-item"><div class="en-num">19</div><div>Refers generally to legislative proposals circulating in Congress in 2025 and 2026, including the American AI Sovereign Wealth Fund Act.</div></div>
+      <div class="endnote-item"><div class="en-num">20</div><div>Mercatus Center. "A Proactive Response to AI-Driven Job Displacement." October 2025. <a href="https://www.mercatus.org/research/policy-briefs/proactive-response-ai-driven-job-displacement" target="_blank">mercatus.org</a></div></div>
+      <div class="endnote-item"><div class="en-num">21</div><div>Costinot, Arnaud, and Iván Werning. "Robots, Trade, and Luddism: A Sufficient Statistic Approach to Optimal Technology Regulation." <em>The Review of Economic Studies</em>, 2022. <a href="https://news.mit.edu/2022/robot-tax-income-inequality-1221" target="_blank">news.mit.edu</a></div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="citation-popup" id="citation-popup">
+  <div class="citation-popup-header">
+    <span class="citation-popup-num" id="popup-num"></span>
+    <button class="citation-popup-close" onclick="closeCitation()">×</button>
+  </div>
+  <div class="citation-popup-text" id="popup-text"></div>
+</div>
+
+<footer>
+  <p>This site is for educational purposes only. Nothing contained herein constitutes investment advice. All opinions are the author's own.</p>
+  <p class="copyright">© 2026 Ethan Rainer. All rights reserved.</p>
+</footer>
+
+<script>
+const citations = {
+  1: { num: 'Note 1', text: 'Salk, Jonas. Interview with Edward R. Murrow. <em>See It Now</em>. CBS, April 12, 1955. Secondary: Oshinsky, David M. <em>Polio: An American Story</em>. Oxford University Press, 2005.' },
+  2: { num: 'Note 2', text: 'Derived from systematic classification studies of academic AI literature through 2023. Supporting reference: National Artificial Intelligence Initiative. <a href="https://ai.gov" target="_blank">ai.gov</a>.' },
+  3: { num: 'Note 3', text: 'Federal Budget IQ. "Federal AI and IT Research and Development Spending Analysis." <a href="https://federalbudgetiq.com/insights/federal-ai-and-it-research-and-development-spending-analysis/" target="_blank">federalbudgetiq.com</a>' },
+  4: { num: 'Note 4', text: 'Networking and Information Technology Research and Development Program. <em>NITRD and NAIIO Supplement to the President\'s FY2025 Budget</em>. November 2023. <a href="https://www.nitrd.gov/fy2025-nitrd-naiio-supplement/" target="_blank">nitrd.gov</a>' },
+  5: { num: 'Note 5', text: 'Derived calculation: $3.316 billion ÷ $57 million ≈ 58x. Sources: notes 3 and 4. Unadjusted for inflation.' },
+  6: { num: 'Note 6', text: 'OpenAI. "Introducing ChatGPT." OpenAI Blog, November 30, 2022. <a href="https://openai.com/blog/chatgpt" target="_blank">openai.com</a>' },
+  7: { num: 'Note 7', text: 'Vaswani, Ashish, et al. "Attention Is All You Need." <em>arXiv:1706.03762</em>, June 12, 2017. <a href="https://arxiv.org/abs/1706.03762" target="_blank">arxiv.org</a>' },
+  8: { num: 'Note 8', text: 'McKinsey Global Institute. "The Economic Potential of Generative AI." June 2023. Full range: $2.6–$4.4 trillion annually to the global economy. <a href="https://www.mckinsey.com/mgi/media-center/ai-could-increase-corporate-profits-by-4-trillion-a-year-according-to-new-research" target="_blank">mckinsey.com</a>' },
+  9: { num: 'Note 9', text: 'Ouyang, Long, et al. "Training Language Models to Follow Instructions with Human Feedback." <em>arXiv:2203.02155</em>, March 2022. <a href="https://arxiv.org/abs/2203.02155" target="_blank">arxiv.org</a>' },
+  10: { num: 'Note 10', text: 'Bai, Yuntao, et al. "Constitutional AI: Harmlessness from AI Feedback." <em>arXiv:2212.08073</em>, December 2022. <a href="https://arxiv.org/abs/2212.08073" target="_blank">arxiv.org</a>' },
+  11: { num: 'Note 11', text: 'NSF, NCSES. <em>Higher Education Research and Development Survey, FY 2024</em>. NSF 26-304, December 23, 2025. <a href="https://ncses.nsf.gov/surveys/higher-education-research-development/2024" target="_blank">ncses.nsf.gov</a>' },
+  12: { num: 'Note 12', text: 'Alphabet Inc. Annual Report FY2025. 2026 guidance from Q4 2025 earnings call. Confirmed by CNBC, February 5, 2026. <a href="https://www.cnbc.com/2026/02/04/alphabet-resets-the-bar-for-ai-infrastructure-spending.html" target="_blank">cnbc.com</a>' },
+  13: { num: 'Note 13', text: 'Data Center Dynamics. "Google increases server life to six years, will save billions of dollars." <a href="https://www.datacenterdynamics.com/en/news/google-increases-server-life-to-six-years-will-save-billions-of-dollars/" target="_blank">datacenterdynamics.com</a>' },
+  14: { num: 'Note 14', text: 'International Monetary Fund. "Gen-AI: Artificial Intelligence and the Future of Work." IMF Staff Discussion Note SDN/2024/001, January 2024. <a href="https://www.imf.org/-/media/files/publications/sdn/2024/english/sdnea2024001.pdf" target="_blank">imf.org</a>' },
+  15: { num: 'Note 15', text: 'National University. "AI Job Statistics." May 2025. <a href="https://www.nu.edu/blog/ai-job-statistics/" target="_blank">nu.edu</a>. Confirmed by Brookings Institution analysis.' },
+  16: { num: 'Note 16', text: 'Amodei, Dario. Interview with Axios. "AI jobs danger: Sleepwalking into a white-collar bloodbath." May 28, 2025. <a href="https://www.axios.com/2025/05/28/ai-jobs-white-collar-unemployment-anthropic" target="_blank">axios.com</a>' },
+  17: { num: 'Note 17', text: 'U.S. Department of Labor, Employment and Training Administration. Workforce Innovation and Opportunity Act. <a href="https://www.dol.gov/agencies/eta/wioa" target="_blank">dol.gov</a>' },
+  18: { num: 'Note 18', text: 'Coldewey, Devin. "OpenAI proposed donating 5% of its equity to a US sovereign wealth fund." <em>TechCrunch</em>, July 2, 2026. <a href="https://techcrunch.com/2026/07/02/openai-proposed-donating-5-of-its-equity-to-a-us-sovereign-wealth-fund/" target="_blank">techcrunch.com</a>' },
+  19: { num: 'Note 19', text: 'Refers generally to legislative proposals circulating in Congress in 2025 and 2026, including the American AI Sovereign Wealth Fund Act.' },
+  20: { num: 'Note 20', text: 'Mercatus Center. "A Proactive Response to AI-Driven Job Displacement." October 2025. <a href="https://www.mercatus.org/research/policy-briefs/proactive-response-ai-driven-job-displacement" target="_blank">mercatus.org</a>' },
+  21: { num: 'Note 21', text: 'Costinot, Arnaud, and Iván Werning. "Robots, Trade, and Luddism: A Sufficient Statistic Approach to Optimal Technology Regulation." <em>The Review of Economic Studies</em>, 2022. <a href="https://news.mit.edu/2022/robot-tax-income-inequality-1221" target="_blank">news.mit.edu</a>' }
+};
+function showCitation(num, el) {
+  const popup = document.getElementById('citation-popup');
+  const c = citations[num];
+  document.getElementById('popup-num').textContent = c.num;
+  document.getElementById('popup-text').innerHTML = c.text;
+  popup.classList.add('visible');
+}
+function closeCitation() { document.getElementById('citation-popup').classList.remove('visible'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCitation(); });
+document.addEventListener('click', e => {
+  const popup = document.getElementById('citation-popup');
+  if (popup.classList.contains('visible') && !popup.contains(e.target) && !e.target.classList.contains('endnote-ref')) { closeCitation(); }
+});
+</script>
+</body>
+</html>
