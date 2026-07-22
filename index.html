@@ -236,16 +236,16 @@
         <table>
           <thead><tr><th>Income statement ($M)</th><th>FY21</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th></tr></thead>
           <tbody>
-            <tr class="bold-row"><td>Revenue</td><td>12,293</td><td>12,368</td><td>12,984</td><td>13,443</td><td>13,443</td></tr>
-            <tr><td>Cost of revenue</td><td>7,581</td><td>8,084</td><td>8,451</td><td>8,617</td><td>8,617</td></tr>
-            <tr class="bold-row"><td>Gross profit</td><td>4,712</td><td>4,285</td><td>4,534</td><td>4,826</td><td>4,826</td></tr>
-            <tr><td>Gross margin</td><td>38.3%</td><td>34.6%</td><td>34.9%</td><td>35.9%</td><td>35.9%</td></tr>
-            <tr><td>SG&amp;A</td><td>2,664</td><td>2,800</td><td>3,184</td><td>3,294</td><td>3,294</td></tr>
-            <tr class="bold-row"><td>Operating income</td><td>2,035</td><td>1,463</td><td>1,282</td><td>1,474</td><td>1,474</td></tr>
-            <tr><td>Operating margin</td><td>16.6%</td><td>11.8%</td><td>9.9%</td><td>11.0%</td><td>11.0%</td></tr>
-            <tr><td>Interest expense</td><td>(58)</td><td>(95)</td><td>(58)</td><td>(53)</td><td>(53)</td></tr>
-            <tr class="bold-row"><td>Net income</td><td>1,520</td><td>1,043</td><td>1,047</td><td>1,165</td><td>1,165</td></tr>
-            <tr><td>Net margin</td><td>12.4%</td><td>8.4%</td><td>8.1%</td><td>8.7%</td><td>8.7%</td></tr>
+            <tr class="bold-row"><td>Revenue</td><td>12,293</td><td>12,368</td><td>12,984</td><td>13,443</td><td>17,215</td></tr>
+            <tr><td>Cost of revenue</td><td>7,581</td><td>8,084</td><td>8,451</td><td>8,617</td><td>11,548</td></tr>
+            <tr class="bold-row"><td>Gross profit</td><td>4,712</td><td>4,285</td><td>4,534</td><td>4,826</td><td>5,667</td></tr>
+            <tr><td>Gross margin</td><td>38.3%</td><td>34.6%</td><td>34.9%</td><td>35.9%</td><td>32.9%</td></tr>
+            <tr><td>SG&amp;A</td><td>2,664</td><td>2,800</td><td>3,184</td><td>3,294</td><td>4,338</td></tr>
+            <tr class="bold-row"><td>Operating income</td><td>2,035</td><td>1,463</td><td>1,282</td><td>1,474</td><td>1,096</td></tr>
+            <tr><td>Operating margin</td><td>16.6%</td><td>11.8%</td><td>9.9%</td><td>11.0%</td><td>6.4%</td></tr>
+            <tr><td>Interest expense</td><td>(58)</td><td>(95)</td><td>(58)</td><td>(53)</td><td>(64)</td></tr>
+            <tr class="bold-row"><td>Net income</td><td>1,520</td><td>1,043</td><td>1,047</td><td>1,165</td><td>849</td></tr>
+            <tr><td>Net margin</td><td>12.4%</td><td>8.4%</td><td>8.1%</td><td>8.7%</td><td>4.9%</td></tr>
           </tbody>
         </table>
       </div>
@@ -288,7 +288,7 @@
       <div class="chart-card">
         <h3>Sensitivity — implied share price by WACC and terminal growth rate</h3>
         <div id="dks-sens"></div>
-        <p class="note">Net debt: $1,905M long-term debt minus $1,690M cash = $215M. Diluted shares outstanding: 83M.</p>
+        <p class="note">Net debt: $1,905M long-term debt minus $1,353M cash = $552M. Diluted shares outstanding: 85M. Note: FY2025 revenue of $17.2B includes ~$3.1B from Foot Locker acquired September 2025. Dick's core business revenue was $14.1B.</p>
       </div>
     </div>
     <div class="tab-panel" id="dks-cashflow">
@@ -484,7 +484,7 @@
   <p style="font-size:11px;color:#555552;text-align:center;margin-top:1rem;">© 2026 Ethan Rainer. All rights reserved.</p>
 </footer>
 <script>
-const dksParams = { baseRev: 13443, netDebt: 215, shares: 83 };
+const dksParams = { baseRev: 17215, netDebt: 552, shares: 85 };
 const spotParams = { baseRev: 17529, netDebt: -8000, shares: 205 };
 let chartRegistry = {};
 function destroyChart(id) { if (chartRegistry[id]) { chartRegistry[id].destroy(); delete chartRegistry[id]; } }
@@ -566,7 +566,7 @@ function updateDCF(co) {
   document.getElementById(co+'-sens').innerHTML = html;
 }
 function initDKSCharts() {
-  makeChart('dks-rev-chart', { type: 'bar', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ label: 'Revenue', data: [12293,12368,12984,13443,13443], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'Gross profit', data: [4712,4285,4534,4826,4826], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
+  makeChart('dks-rev-chart', { type: 'bar', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ label: 'Revenue', data: [12293,12368,12984,13443,17215], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'Gross profit', data: [4712,4285,4534,4826,5667], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
   makeChart('dks-margin-chart', { type: 'line', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ data: [38.3,34.6,34.9,35.9,32.9], borderColor: '#60a5fa', tension: 0.3, pointRadius: 4, fill: false, borderWidth: 2 },{ data: [16.6,11.8,9.9,11.0,6.4], borderColor: '#4ade80', tension: 0.3, pointRadius: 4, fill: false, borderWidth: 2 },{ data: [10.6,4.5,7.2,3.8,2.3], borderColor: '#fbbf24', tension: 0.3, pointRadius: 4, fill: false, borderWidth: 2 }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, min: 0, ticks: { ...baseOpts.scales.y.ticks, callback: v => v+'%' } } } } });
   makeChart('dks-cf-chart', { type: 'bar', data: { labels: ['FY21','FY22','FY23','FY24','FY25'], datasets: [{ label: 'Op CF', data: [1617,922,1527,1312,1537], backgroundColor: '#60a5fa', borderRadius: 4, borderSkipped: false },{ label: 'CapEx', data: [-308,-364,-587,-803,-1137], backgroundColor: '#f87171', borderRadius: 4, borderSkipped: false },{ label: 'FCF', data: [1309,558,940,509,400], backgroundColor: '#4ade80', borderRadius: 4, borderSkipped: false }] }, options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } } });
 }
